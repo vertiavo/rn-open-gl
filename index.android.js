@@ -1,12 +1,13 @@
-import React, {Component} from "react";
-import {View, AppRegistry, PanResponder} from "react-native";
-import {Surface} from "gl-react-native";
-import GL from "gl-react";
-import {resolveAssetSource} from "gl-react-native";
+import React, { Component } from 'react';
+import { View, AppRegistry, PanResponder } from 'react-native';
+import { Surface } from 'gl-react-native';
+import GL from 'gl-react';
+import { resolveAssetSource } from 'gl-react-native';
 import Dimensions from 'Dimensions';
 import BallBody from './ballBody.js';
 import Wall from './wall.js';
 import Ball from './ball.js';
+import Triangle from './triangle.js';
 import Box2D from 'box2dweb';
 
 const b2World = Box2D.Dynamics.b2World;
@@ -23,32 +24,45 @@ var ball;
 var lastRendered = 0;
 
 export default class GLExample extends Component {
-
-  render () {
+  render() {
     var location = ball.position();
     var angle = ball.angle();
 
-    return <View {...this._panResponder.panHandlers}>
-        <Surface width={window.width} height={window.height}>
-          <GL.Node
+    return (
+      <View {...this._panResponder.panHandlers}>
+        <Surface width={window.width} height={window.width}>
+          {/* <GL.Node
             uniforms={{ ratio, radius, location, angle, image }}
             shader={{ frag: Ball }}
+          /> */}
+          <GL.Node
+            shader={{
+              frag: Triangle
+            }}
           />
         </Surface>
-    </View>;
+      </View>
+    );
   }
 
   handleTouch(event) {
     var touchX = event.nativeEvent.locationX / window.width;
     var touchY = 1.0 - event.nativeEvent.locationY / window.height;
 
-    if (this.distance(touchX, touchY / ratio, ball.position()[0], ball.position()[1]) < radius) {
-	this.kickBall(touchX > ball.position()[0] ? -50.0 : 50.0, 500.0);
+    if (
+      this.distance(
+        touchX,
+        touchY / ratio,
+        ball.position()[0],
+        ball.position()[1]
+      ) < radius
+    ) {
+      this.kickBall(touchX > ball.position()[0] ? -50.0 : 50.0, 500.0);
     }
   }
 
   kickBall(x, y) {
-     ball.applyImpulse(new b2Vec2(x, y));
+    ball.applyImpulse(new b2Vec2(x, y));
   }
 
   distance(x1, y1, x2, y2) {
@@ -80,7 +94,7 @@ export default class GLExample extends Component {
   }
 
   componentDidMount() {
-    this.componentDidUpdate()
+    this.componentDidUpdate();
   }
 }
 

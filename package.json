@@ -7,6 +7,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "box2dweb": "^2.1.0-b",
     "gl-react": "^2.2.10",
     "gl-react-native": "^2.42.3",
     "react": "16.0.0-alpha.6",

@@ -20,10 +20,10 @@ module.exports = `
   }
 
   void main() {
-    float red = uv.y;
-    float green = (1.0 - uv.x) * (1.0 - uv.y);
-    float blue = uv.x * (1.0 - uv.y);
+    float red = uv.y - 0.4;
+    float green = ((1.0 - uv.x) * (1.0 - uv.y)) - 0.4;
+    float blue = (uv.x * (1.0 - uv.y)) - 0.4;
     
     gl_FragColor = insideTriangle(uv) ? vec4(red, green, blue, 1.0) : vec4(1.0);
   }
-`
+`;
